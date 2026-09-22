@@ -23,6 +23,7 @@ shows the first few rows.
 ```{r}
 patients <- read.csv("data/patients.csv")
 head(patients)
+nrow(patients)
 ```
 
 ## A first chart
@@ -34,10 +35,12 @@ hist(patients$age,
      col  = "steelblue")
 ```
 
-## Your turn
+## My notes
 
-- Add a sentence here describing what you notice in the chart.
-- Render again and check that both your sentence and the chart appear.
+- Three steps are needed to sucessfully upload my future homeoworks in Github for 
+grading. 
+- Code needs to be between three backticks and the language name needs to be 
+specified after the first three backticks.
 
 When you are happy with the result, **commit and sync** your work (the Week 2
 course page walks you through this), then submit your repository link on Canvas.
