@@ -1,0 +1,55 @@
+---
+title: "Assignment 4: Polyglot Parity"
+format: html
+---
+
+## Load the NHANES dataset and summarize BMI by income group and gender
+
+```{r}
+library(tidyverse)
+library(dplyr)
+
+nhanes <- read_csv("examples/nhanes-equity/data/nhanes_equity_v6.csv")
+
+r_summary <- nhanes |>
+  filter(!is.na(BMI), !is.na(IncomeGroup), !is.na(Gender)) |>
+  group_by(IncomeGroup, Gender) |>
+  summarise(
+    n = n(),
+    mean_bmi = round(mean(BMI), 2),
+    sd_bmi = round(sd(BMI), 2),
+    .groups = "drop"
+  ) |>
+  arrange(IncomeGroup, Gender)
+
+r_summary
+```
+
+## Create a function to summarize BMI by income group and gender
+```{r}
+summarise_mean_sd <- function(data, value, group1, group2) {
+  data |>
+    filter(!is.na({{ value }}), !is.na({{ group1 }}), !is.na({{ group2 }})) |>
+    group_by({{ group1 }}, {{ group2 }}) |>
+    summarise(
+      n = n(),
+      mean_value = round(mean({{ value }}), 2),
+      sd_value = round(sd({{ value }}), 2),
+      .groups = "drop"
+    ) |>
+    arrange({{ group1 }}, {{ group2 }})
+}
+
+r_function_summary <- summarise_mean_sd(nhanes, BMI, IncomeGroup, Gender)
+r_function_summary
+```
+
+## R Mastery Excercise - modifying the function call
+```{r}
+diff_value_summary <- summarise_mean_sd(nhanes, Waist, IncomeGroup, Gender)
+diff_value_summary
+
+diff_column_summary <- summarise_mean_sd(nhanes, BMI, Race, Gender)
+diff_column_summary
+```
+
