@@ -1,0 +1,6 @@
+metric,r_value,python_value,match,notes
+raw_row_count,105626,105626,yes,Same source dataset
+raw_column_count,18,18,yes,Same source dataset
+filtered_row_count,87647,87647,yes,Rows with non-missing BMI IncomeGroup and Gender
+number_of_groups,6,6,yes,Same six IncomeGroup and Gender combinations in sorted order
+rounded_summary_values,"means: 25.74 26.11 25.95 24.05 26.39 25.52; sd: 7.51 6.81 8.65 7.17 8.20 7.22","means: 25.7 26.1 25.9 24.0 26.4 25.5; sd: 7.51 6.81 8.65 7.17 8.20 7.22",no,"Direct summary means differ in precision: R uses 2 decimals while Python uses 1; SDs match. The R and Python reusable function summaries round both statistics to 2 decimals and match."

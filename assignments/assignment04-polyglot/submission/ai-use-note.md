@@ -1,0 +1,1 @@
+AI Help note: AI assisted in figuring out how to change Python code so that the mean_bmi is rounded to the same decimal point as the R code. R was also used to convert the summarise_mean_sd R function to a Python version. All other coding and check was manually done.
