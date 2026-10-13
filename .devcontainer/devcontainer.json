@@ -39,6 +39,7 @@
         "mechatroner.rainbow-csv"
       ],
       "settings": {
+        "r.rpath.linux": "/usr/local/bin/R",
         "r.rterm.linux": "/usr/local/bin/R",
         "r.bracketedPaste": true,
         // 🤖 AI edit (Claude), 2026-09-29: the two settings below.
