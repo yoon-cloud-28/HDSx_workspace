@@ -1,0 +1,1 @@
+This figure shows mean BMI by income group across NHANES cycle using the prepared NHANES Health Equity classroom dataset. The summary is descriptive and unweighted. Records with missing BMI, income group, and NHANES cycle were excluded. The plot supports comparison of patterns, not causal claims or population-level estimates.

@@ -1,0 +1,84 @@
+## Assignment 5: Visualization Audit
+
+## Loading NHANES data
+```{r}
+library(tidyverse)
+
+candidate_paths <- c(
+  "examples/nhanes-equity/data/nhanes_equity_v6.csv",
+  "../../examples/nhanes-equity/data/nhanes_equity_v6.csv"
+)
+
+data_path <- candidate_paths[file.exists(candidate_paths)][1]
+if (is.na(data_path)) {
+  stop("Could not find examples/nhanes-equity/data/nhanes_equity_v6.csv")
+}
+
+nhanes <- read_csv(data_path, show_col_types = FALSE)
+```
+
+## Descriptive analysis
+```{r}
+bmi_by_income_cycle <- nhanes |>
+  filter(
+    !is.na(BMI),
+    !is.na(IncomeGroup),
+    !is.na(Cycle),
+    Age >= 20,
+    Age <= 80
+  ) |>
+  group_by(Cycle, IncomeGroup) |>
+  summarise(
+    n = n(),
+    mean_bmi = mean(BMI),
+    .groups = "drop"
+  ) |>
+  filter(n >= 30)
+
+bmi_by_income_cycle
+```
+
+## Plot
+```{r}
+bmi_plot <- ggplot(
+  bmi_by_income_cycle,
+  aes(x = Cycle, y = mean_bmi, color = IncomeGroup, group = IncomeGroup)
+) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2.5) +
+  scale_x_discrete(limits = unique(nhanes$Cycle), drop = FALSE) +
+  scale_color_brewer(palette = "Dark2") +
+  coord_cartesian(ylim = c(0, NA)) +
+  labs(
+    title = "Mean BMI by income group across NHANES cycles",
+    x = "NHANES cycle",
+    y = "Mean BMI",
+    color = "Income Group",
+    caption = paste(
+      "Unweighted descriptive mean BMI",
+      "Adults aged 20-80 with non-missing BMI, income group, and cycle from a classroom NHANES dataset;",
+      "groups with n < 30 excluded. Not a population estimate."
+    )
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom",
+    plot.caption = element_text(margin = margin(t = 8))
+  )
+
+bmi_plot
+```
+
+## Saving the corrected plot
+```{r}
+ggsave(
+  "assignments/assignment05-visualization/submission/corrected-plot.png",
+  plot = last_plot(),
+  width = 7,
+  height = 5
+)
+```
+
+## Revision notes
+To correct the content of the plot, all cycles were included in the x-axis, although groups with n<30 were excluded from the summary statistics. The y-axis was adjusted to start at 0, and the color palette was changed to "Dark2" for better accessibility. The caption was updated to clarify that the plot shows unweighted descriptive mean BMI for adults aged 20-80 with non-missing BMI, income group, and cycle, and that groups with n < 30 were excluded. The title was edited to specify that the data is from the prepared classroom dataset and there is no causation leading words. The x-axis labels were rotated for better readability, and the legend was moved to the bottom of the plot.

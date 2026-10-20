@@ -1,0 +1,1 @@
+AI was used to revise the code based on the isses that were checked by me. I checked the code changes with what we learned during the class and textbook. AI was also used to revise the "Revision note" to make it sound more clear. 

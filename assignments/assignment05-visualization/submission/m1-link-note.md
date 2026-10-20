@@ -1,0 +1,1 @@
+The assignment changed our group's plan on how in depth we have to be in our caption. Including total n, number of missing (or lack thereof), and whether a variable was weighted or not was deemed relevant and important in our project. 
