@@ -1,0 +1,79 @@
+# EDA note
+
+Corrected code and interpretation of 'planted-error-starter.qmd'. 
+
+## Importing dataset
+```{r}
+library(tidyverse)
+library(knitr)
+
+candidate_paths <- c(
+  "examples/nhanes-equity/data/nhanes_equity_v6.csv",
+  "../../examples/nhanes-equity/data/nhanes_equity_v6.csv"
+)
+
+data_path <- candidate_paths[file.exists(candidate_paths)][1]
+if (is.na(data_path)) {
+  stop("Could not find examples/nhanes-equity/data/nhanes_equity_v6.csv")
+}
+
+nhanes <- read_csv(data_path, show_col_types = FALSE)
+```
+
+## Defining Analysis cohort
+```{r}
+analysis_df <- nhanes |>
+  filter(Age >= 20, Age <= 80)
+
+cohort_counts <- tibble(
+  step = c("Prepared CSV rows", "Rows after age 20-80 restriction"),
+  n = c(nrow(nhanes), nrow(analysis_df))
+)
+
+kable(cohort_counts)
+```
+
+## Missingess check
+```{r}
+key_vars <- c("BMI", "Age", "IncomeGroup")
+
+missingness <- tibble(variable = key_vars) |>
+  mutate(
+    missing_n = vapply(analysis_df[key_vars], function(x) sum(is.na(x)), numeric(1)),
+    missing_percent = round(100 * missing_n / nrow(analysis_df), 1)
+  )
+
+kable(missingness)
+getwd()
+```
+
+## Table 1 Summary
+```{r}
+table1_df <- analysis_df |>
+  drop_na(BMI, IncomeGroup) |>
+  mutate(
+    IncomeGroup = forcats::fct_relevel(
+      IncomeGroup,
+      "High Income (>3.5)",
+      "Middle Income",
+      "Low Income (<1.3)"
+    )
+  ) #AI-Command: Currently, the table 1 output is showing the result in high income, low income, middle income order. How can I change the order to be high, middle, low
+table1 <- table1_df |>
+  group_by(IncomeGroup) |>
+  summarise(
+    N = n(),
+    `BMI, mean (SD)` = sprintf("%.1f (%.1f)", mean(BMI), sd(BMI)),
+    `Age, mean (SD)` = sprintf("%.1f (%.1f)", mean(Age), sd(Age)),
+    .groups = "drop"
+  )
+
+kable(table1)
+write_csv(table1, "assignments/assignment06-eda-ai-audit/submission/table1.csv")#AI prompt: make sure the csv file will be saved to the submission folder under assignment6-eda-ai-audit folder
+```
+
+## Interpretation
+Among adults aged 20–80 included in the analysis, the high-income group had the lowest mean BMI (28.6). Mean BMI was similar in the middle- and low-income groups, and the low-income group had the lowest mean age. Table 1 excludes participants with missing BMI or IncomeGroup values. These are unweighted descriptive summaries of the analytic sample; they do not establish causal relationships and may not represent the U.S. population. #AI prompt: revise the interpretation
+
+## Method note
+We analyzed the prepared NHANES Health Equity classroom CSV snapshot. The cohort included records with age 20-80. We summarized N, BMI mean (SD), and age mean (SD) by IncomeGroup using unweighted descriptive statistics. Records with missing BMI, age, or income were excluded after the missingness counts were reported. The summary describes the prepared classroom dataset only and should not be interpreted as causal effects or population estimates.
