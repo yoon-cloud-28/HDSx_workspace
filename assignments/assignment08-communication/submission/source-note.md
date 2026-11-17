@@ -1,0 +1,2 @@
+The data source is from the public use NHANES files at the CDC, made into a classroom use NHANES health equity csv file.
+Centers for Disease Control and Prevention, National Center for Health Statistics. 2026. National Health and Nutrition Examination Survey. https://wwwn.cdc.gov/nchs/nhanes/. 
