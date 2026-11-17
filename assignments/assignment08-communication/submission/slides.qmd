@@ -16,9 +16,9 @@ bibliography: ../../../references.bib
 
 **Why it matters:** To better understand who is more vulnerable to obesity in different income group.
 
-## Evidence
+## Evidence {.smaller}
 
-![](../../assignment05-visualization/submission/corrected-plot.png)
+![](../../assignment05-visualization/submission/corrected-plot.png){width=100%}
 
 The figure shows different trend of BMI of each income group across NHANES cycles. The high income group has lower BMI across most NHANES cycle compared to middle or low income group. 
 
@@ -30,4 +30,4 @@ Source note: The data source is from the public use NHANES files at the CDC, mad
 
 **Next step:** Use the actual NHANES dataset so that the survey weights can be used for analysis allowing the result to capture the a nationally representative estimates. 
 
-**AI-use note:** AI was not used to help with the wording of the slides. 
+**AI-use note:** AI was not used to help with the wording of the slides. AI helped to make the PNG file look bigger when rendered. (AI prompt: Make the PNG file look bigger when rendered)
